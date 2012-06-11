@@ -12,6 +12,7 @@ With apache-top you can get:
 * A graph with the inactive and active processes and their status
 
 == Requeriments
+
 * python 2.4
 * Apache 2.0 webserver with mod_status and the ExtendedStatus directive activated. You will also need to be allowed to access from your ip address.
 
@@ -19,3 +20,4 @@ With apache-top you can get:
 
 * http://www.fr3nd.net/projects/apache-top/
 * https://github.com/fr3nd/apache-top
+
