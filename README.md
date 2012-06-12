@@ -1,4 +1,5 @@
-== Description
+Description
+===========
 
 apache-top provides real-time display of the active processes from a remote apache server. I’ts like the top linux command.
 
@@ -11,12 +12,29 @@ With apache-top you can get:
 * Number of active and inactive processes
 * A graph with the inactive and active processes and their status
 
-== Requeriments
+Requeriments
+============
 
 * python 2.4
 * Apache 2.0 webserver with mod_status and the ExtendedStatus directive activated. You will also need to be allowed to access from your ip address.
 
-== Links
+Examples
+========
+
+To see statistics from the webserver 192.168.0.1:
+
+    apache-top -u http://192.168.0.1/server-status
+
+If for any reason we don’t have direct access to 80 port, a tunel can be createdusing ssh:
+
+    ssh -L 8080:localhost:80 192.168.0.1
+
+And we run this command in other terminal:
+
+    apache-top -u http://localhost:8080/server-status
+
+Links
+=====
 
 * http://www.fr3nd.net/projects/apache-top/
 * https://github.com/fr3nd/apache-top
