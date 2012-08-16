@@ -169,22 +169,16 @@ def print_screen(screen, url):
             screen.addstr(0,0,data.performance_info_data[5].replace("Server uptime: ","Uptime:").replace(" days","d").replace(" day","d").replace(" hours","h").replace(" hour","h").replace(" minutes","m").replace(" minute","m").replace(" seconds","s").replace("second","s") + ", " + data.performance_info_data[3])
             screen.addstr(1,0,data.performance_info_data[7])
             screen.addstr(2,0,data.performance_info_data[8].replace("request","req").replace("second","sec") + ", Active/Idle: " + data.performance_info_data[9].split()[0] + "/" + data.performance_info_data[9].split()[5])
-	    
-	    screen.addstr(3,0,"   Scoreboard Key:")
-	    screen.addstr(4,0,"_ Waiting for Connection, S Starting up, R Reading Request")
-	    screen.addstr(5,0,"W Sending Reply, K Keepalive (read), D DNS Lookup")
-	    screen.addstr(6,0,"C Closing connection, L Logging, G Gracefully finishing")
-	    screen.addstr(7,0,"I Idle cleanup of worker, . Open slot with no current process")
     
             # imprimim el scoreboard
             for num in range(0,len(data.scoreboard_data[0]),width):
-                 screen.addstr(9+num/width,0, data.scoreboard_data[0][num:num+width])
+                 screen.addstr(4+num/width,0, data.scoreboard_data[0][num:num+width])
         
             if len(message) > 0:
-                screen.addstr(10+num/width,0,message, curses.A_BOLD | curses.A_REVERSE)
+                screen.addstr(5+num/width,0,message, curses.A_BOLD | curses.A_REVERSE)
                 message = ""
                         
-            print_proceses(11+num/width,0,screen, data.proceses_data, columns=[ 1, 3, 5, 4, 11, 10, 12 ], sort=sort, reverse=reverse, width=width, show_only_active=show_only_active )
+            print_proceses(6+num/width,0,screen, data.proceses_data, columns=[ 1, 3, 5, 4, 11, 10, 12 ], sort=sort, reverse=reverse, width=width, show_only_active=show_only_active )
     
             #screen.hline(2, 1, curses.ACS_HLINE, 77)
             screen.refresh()
