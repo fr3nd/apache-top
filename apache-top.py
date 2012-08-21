@@ -142,7 +142,7 @@ def usage(exit = 1):
     sys.exit(exit)
 
         
-def print_screen(screen, url):
+def print_screen(screen, url, show_scoreboard):
     
     screen = stdscr.subwin(0, 0)
     screen.nodelay(1)
@@ -152,6 +152,7 @@ def print_screen(screen, url):
     message = "" 
     reverse = True
     show_only_active = True
+    y = 0
     c = ""
     
     while not end:
@@ -169,16 +170,25 @@ def print_screen(screen, url):
             screen.addstr(0,0,data.performance_info_data[5].replace("Server uptime: ","Uptime:").replace(" days","d").replace(" day","d").replace(" hours","h").replace(" hour","h").replace(" minutes","m").replace(" minute","m").replace(" seconds","s").replace("second","s") + ", " + data.performance_info_data[3])
             screen.addstr(1,0,data.performance_info_data[7])
             screen.addstr(2,0,data.performance_info_data[8].replace("request","req").replace("second","sec") + ", Active/Idle: " + data.performance_info_data[9].split()[0] + "/" + data.performance_info_data[9].split()[5])
-    
+            
+            # evaluar scoreboard
+            if show_scoreboard:
+                y = 5
+                screen.addstr(3,0,"   Scoreboard Key:")
+                screen.addstr(4,0,"_ Waiting for Connection, S Starting up, R Reading Request")
+                screen.addstr(5,0,"W Sending Reply, K Keepalive (read), D DNS Lookup")
+                screen.addstr(6,0,"C Closing connection, L Logging, G Gracefully finishing")
+                screen.addstr(7,0,"I Idle cleanup of worker, . Open slot with no current process")
+            
             # imprimim el scoreboard
             for num in range(0,len(data.scoreboard_data[0]),width):
-                 screen.addstr(4+num/width,0, data.scoreboard_data[0][num:num+width])
+                 screen.addstr(y+4+num/width,0, data.scoreboard_data[0][num:num+width])
         
             if len(message) > 0:
-                screen.addstr(5+num/width,0,message, curses.A_BOLD | curses.A_REVERSE)
+                screen.addstr(y+5+num/width,0,message, curses.A_BOLD | curses.A_REVERSE)
                 message = ""
                         
-            print_proceses(6+num/width,0,screen, data.proceses_data, columns=[ 1, 3, 5, 4, 11, 10, 12 ], sort=sort, reverse=reverse, width=width, show_only_active=show_only_active )
+            print_proceses(y+6+num/width,0,screen, data.proceses_data, columns=[ 1, 3, 5, 4, 11, 10, 12 ], sort=sort, reverse=reverse, width=width, show_only_active=show_only_active )
     
             #screen.hline(2, 1, curses.ACS_HLINE, 77)
             screen.refresh()
@@ -296,13 +306,14 @@ def print_process(y,x,screen,process,columns,show_only_active,width):
 
 
 
-def main(url, stdscr):
+def main(url, stdscr, show_scoreboard):
     """Shows the actual status of the Apache web server using the server-status 
 url. It needs the ExtendedStatus flag
     
-    Usage: apache-top -u url
+    Usage: apache-top [-s] -u url
         -u url    Url where apache-status is located
 		  Example: apache-top.py -u http://www.domain.com/server-status
+        -s        Show scoreboard
 
 
     Interactive keys:
@@ -338,7 +349,7 @@ url. It needs the ExtendedStatus flag
 
     
     try:
-    	print_screen(stdscr,url)
+    	print_screen(stdscr,url,show_scoreboard)
     except:
     	raise
 
@@ -346,15 +357,17 @@ url. It needs the ExtendedStatus flag
 if __name__ == "__main__":
     
     url = None
-    
+    show_scoreboard = False
     try:
-        opt_list = getopt.getopt(sys.argv[1:], "u:h")
+        opt_list = getopt.getopt(sys.argv[1:], "u:h:s")
     except:
         usage()
         
     for opt in opt_list[0]:
         if opt[0]=="-h":
             usage(0)
+        elif opt[0]=="-s":
+            show_scoreboard = True
         elif opt[0]=="-u":
             url = opt[1]
         else:
@@ -377,7 +390,7 @@ if __name__ == "__main__":
         # a special value like curses.KEY_LEFT will be returned
         stdscr.keypad(1)
         try:
-		main(url,stdscr)                    # Enter the main loop
+		main(url,stdscr,show_scoreboard)                    # Enter the main loop
 	except:
 		raise
         # Set everything back to normal
