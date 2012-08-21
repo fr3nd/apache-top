@@ -16,6 +16,7 @@ Requeriments
 ============
 
 * python 2.4
+* python-curses package
 * Apache 2.0 webserver with mod_status and the ExtendedStatus directive activated. You will also need to be allowed to access from your ip address.
 
 Examples
