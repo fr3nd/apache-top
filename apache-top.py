@@ -173,12 +173,13 @@ def print_screen(screen, url, show_scoreboard):
             
             # evaluar scoreboard
             if show_scoreboard:
-                y = 5
-                screen.addstr(3,0,"   Scoreboard Key:")
-                screen.addstr(4,0,"_ Waiting for Connection, S Starting up, R Reading Request")
-                screen.addstr(5,0,"W Sending Reply, K Keepalive (read), D DNS Lookup")
-                screen.addstr(6,0,"C Closing connection, L Logging, G Gracefully finishing")
-                screen.addstr(7,0,"I Idle cleanup of worker, . Open slot with no current process")
+                y = 6
+                screen.addstr(3,0,"  +-------------------------Scoreboard Key-------------------------+")
+                screen.addstr(4,0,"  |  _ Waiting for Connection, S Starting up, R Reading Request    |")
+                screen.addstr(5,0,"  |  W Sending Reply, K Keepalive (read), D DNS Lookup             |")
+                screen.addstr(6,0,"  |  C Closing connection, L Logging, G Gracefully finishing       |")
+                screen.addstr(7,0,"  |  I Idle cleanup of worker, . Open slot with no current process |")
+                screen.addstr(8,0,"  +----------------------------------------------------------------+")
             
             # imprimim el scoreboard
             for num in range(0,len(data.scoreboard_data[0]),width):
@@ -230,6 +231,15 @@ def print_screen(screen, url, show_scoreboard):
                 # ordenar per ip
                 sort = 10
                 message = "Sort by IP"
+            elif c == "s":
+                # mostrar scoreboard"
+                if show_scoreboard == 0:
+                    show_scoreboard = 1
+                    message = "Showing mod_status scoreboard"
+                else:
+					show_scoreboard = 0
+					message = "Hiding mod_status scoreboard"
+					y = 0
             elif c == "a":
                 # mostra els actius
                 if show_only_active:
@@ -325,6 +335,7 @@ url. It needs the ExtendedStatus flag
 	M	Sort by Mopde of operation
 	R	Sort by Request
 	I	Sort by Ip
+	s	Show/Hide mod_status scoreboard
 	a	Switch between show all processes and show only active processes (default)
 	r	Reverse sort
 	
