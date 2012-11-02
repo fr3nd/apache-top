@@ -26,7 +26,7 @@ To see statistics from the webserver 192.168.0.1:
 
     apache-top -u http://192.168.0.1/server-status
 
-If for any reason we don’t have direct access to 80 port, a tunel can be createdusing ssh:
+If for any reason we don’t have direct access to 80 port, a tunel can be created using ssh:
 
     ssh -L 8080:localhost:80 192.168.0.1
 
