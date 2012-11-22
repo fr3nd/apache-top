@@ -12,7 +12,7 @@ With apache-top you can get:
 * Number of active and inactive processes
 * A graph with the inactive and active processes and their status
 
-Requeriments
+Requirements
 ============
 
 * python 2.4
