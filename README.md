@@ -1,3 +1,8 @@
+# IMPORTANT
+
+This project is no longer active. You can find an active fork here:
+* https://github.com/igloonet/apache-top
+
 Description
 ===========
 
